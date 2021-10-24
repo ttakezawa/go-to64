@@ -9,13 +9,13 @@ In a 32-bit environment such as CodeForces, this tool may be useful if you want 
 ## Installation
 
 ```bash
-go install github.com/ttakezawa/go-to64
+go install github.com/ttakezawa/go-to64@latest
 ```
 
 ## Usage
 
 ```bash
-go-to64 -fix main.go
+go-to64 -fix .
 ```
 
 ## Experimental result
