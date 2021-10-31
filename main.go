@@ -34,24 +34,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				for _, spec := range decl.Specs {
 					if valueSpec, ok := spec.(*ast.ValueSpec); ok {
 						if valueSpec.Type != nil {
-							if typeIdent, ok := valueSpec.Type.(*ast.Ident); ok && typeIdent.Name != "" {
-								if typeIdent.Name == "int" || typeIdent.Name == "uint" {
-									msg := fmt.Sprintf("Fix %s -> %s64 in %s declaration", typeIdent.Name, typeIdent.Name, decl.Tok)
-									pass.Report(analysis.Diagnostic{
-										Pos:     typeIdent.Pos(),
-										End:     typeIdent.End(),
-										Message: msg,
-										SuggestedFixes: []analysis.SuggestedFix{{
-											Message: msg,
-											TextEdits: []analysis.TextEdit{{
-												Pos:     typeIdent.Pos(),
-												End:     typeIdent.End(),
-												NewText: []byte(fmt.Sprintf("%s64", typeIdent.Name)),
-											}},
-										}},
-									})
-								}
-							}
+							ast.Inspect(valueSpec.Type, fn)
 							// If a type is specified in lhs, don't fix constants in rhs
 							skipLiteral = true
 							for _, value := range valueSpec.Values {

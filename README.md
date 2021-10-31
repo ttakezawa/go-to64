@@ -44,6 +44,8 @@ var (
 	c    uint = 3
 	d         = 4
 	e         = 5 + add(6+a, int(c))
+
+	slice []int = []int{3, 1}
 )
 
 func main() {
@@ -81,6 +83,8 @@ var (
 	c    uint64 = 3
 	d           = int64(4)
 	e           = int64(5) + add(int64(6)+a, int64(c))
+
+	slice []int64 = []int64{3, 1}
 )
 
 func main() {
