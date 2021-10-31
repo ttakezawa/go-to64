@@ -34,7 +34,14 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				for _, spec := range decl.Specs {
 					if valueSpec, ok := spec.(*ast.ValueSpec); ok {
 						if valueSpec.Type != nil {
-							ast.Inspect(valueSpec.Type, fn)
+							if _, ok := valueSpec.Type.(*ast.ArrayType); ok {
+								// If it's array type, don't fix size of array type
+								skipLiteral = true
+								ast.Inspect(valueSpec.Type, fn)
+								skipLiteral = false
+							} else {
+								ast.Inspect(valueSpec.Type, fn)
+							}
 							// If a type is specified in lhs, don't fix constants in rhs
 							skipLiteral = true
 							for _, value := range valueSpec.Values {
